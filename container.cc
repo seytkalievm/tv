@@ -27,7 +27,7 @@ void write_rule(const char* path, const char* value) {
 #define CGROUP_FOLDER "/sys/fs/cgroup/pids/container/" 
 #define concat(a,b) (a"" b)
 void limitProcessCreation() {
-  mkdir( CGROUP_FOLDER, S_IRUSR | S_IWUSR);
+  mkdir( CGROUP_FOLDER, S_IRUSR | S_IWUSR);  // Read & Write
   const char* pid  = std::to_string(getpid()).c_str();
 
   write_rule(concat(CGROUP_FOLDER, "pids.max"), "5"); 
@@ -44,7 +44,8 @@ char* stack_memory() {
     exit(EXIT_FAILURE);
   }  
 
-  return stack+stackSize;
+  return stack+stackSize;  //move the pointer to the end of the array because the stack grows backward. 
+}
 
 void setHostName(std::string hostname) {
   sethostname(hostname.c_str(), hostname.size());
